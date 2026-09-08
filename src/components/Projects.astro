@@ -124,7 +124,7 @@ const projects = [
     nextBtn.addEventListener('click', () => container.scrollBy({ left: 340, behavior: 'smooth' }));
     prevBtn.addEventListener('click', () => container.scrollBy({ left: -340, behavior: 'smooth' }));
 
-    let timer = setInterval(auto, 3500);
+    let timer = setInterval(auto, 5000);
     function auto() {
       const max = container.scrollWidth - container.clientWidth;
       if (container.scrollLeft >= max - 20) container.scrollTo({ left: 0, behavior: 'smooth' });
