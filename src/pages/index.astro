@@ -1,11 +1,26 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import NavBar from '../components/NavBar.astro';
+import Starfield from '../components/Starfield.astro';
+import HeroMotto from '../components/HeroMotto.astro';
+import Hello from '../components/Hello.astro';
+import About from '../components/About.astro';
+import Expertise from '../components/Expertise.astro';
+import Projects from '../components/Projects.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Ferdi Yudiansyah | Space Portfolio">
+  <Starfield />
+  <NavBar />
+  <main class="relative">
+    <HeroMotto />
+    <div class="max-w-6xl mx-auto px-6 md:pr-28"><div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div></div>
+    <Hello />
+    <div class="max-w-6xl mx-auto px-6 md:pr-28"><div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div></div>
+    <About />
+    <div class="max-w-6xl mx-auto px-6 md:pr-28"><div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div></div>
+    <Expertise />
+    <div class="max-w-6xl mx-auto px-6 md:pr-28"><div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div></div>
+    <Projects />
+  </main>
 </Layout>

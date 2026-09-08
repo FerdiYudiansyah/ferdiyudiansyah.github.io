@@ -1,0 +1,76 @@
+---
+// Section 4 — Area of Expertise
+const areas = [
+  {
+    icon: '⌁',
+    title: 'Mobile Development',
+    desc: 'Clean architecture, problem-solving, algorithms and building maintainable systems that scale across galaxies.',
+    tags: ['Flutter', 'Clean Code', 'Git', 'Debugging'],
+    glow: 'hover:shadow-violet-600/30 hover:border-violet-400/40',
+  },
+    {
+    icon: '⌁',
+    title: 'Game Development',
+    desc: 'Clean architecture, problem-solving, algorithms and building maintainable systems that scale across galaxies.',
+    tags: ['Godot', 'Unity', 'Unreal Engine', 'Clean Code', 'Git', 'Debugging'],
+    glow: 'hover:shadow-violet-600/30 hover:border-violet-400/40',
+  },
+  
+  {
+    icon: '◈',
+    title: 'Frontend Development',
+    desc: 'Responsive, accessible interfaces with Astro, Tailwind CSS and modern JavaScript. Pixel-perfect, fast by default.',
+    tags: ['Astro', 'Tailwind CSS', 'JavaScript', 'Responsive UI'],
+    glow: 'hover:shadow-cyan-500/30 hover:border-cyan-300/40',
+  },
+  {
+    icon: '⬡',
+    title: 'Backend & Tools',
+    desc: 'APIs, data handling and deployment pipelines. From localhost to GitHub Pages and beyond.',
+    tags: ['REST APIs', 'Node.js', 'GitHub Pages', 'Automation'],
+    glow: 'hover:shadow-fuchsia-500/30 hover:border-fuchsia-300/40',
+  },
+  {
+    icon: '⌁',
+    title: '3D Modelling',
+    desc: '3D Modeling in Blender with great topology',
+    tags: ['Blender', 'Clean Topology'],
+    glow: 'hover:shadow-violet-600/30 hover:border-violet-400/40',
+  },
+];
+---
+
+<section id="expertise" class="relative min-h-screen flex items-center">
+  <div class="w-full max-w-6xl mx-auto px-6 md:pr-28 md:pl-10 py-24">
+    <p class="text-xs tracking-[0.3em] font-semibold text-cyan-300">STAR MAP // 004 — AREA OF EXPERTISE</p>
+    <div class="mt-4 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <h2 class="font-display font-bold text-4xl md:text-5xl text-white">My mission <span class="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">specializations</span></h2>
+      <p class="text-slate-400 max-w-md text-sm leading-relaxed">Three core orbits I operate in. Each one keeps my spacecraft — and your product — flying stable.</p>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-3 gap-5">
+      {areas.map((a, idx) => (
+        <div class={`glass rounded-3xl p-7 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${a.glow} group`}>
+          <div class="flex items-center justify-between">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600 to-cyan-500 flex items-center justify-center text-xl text-white shadow-lg shadow-violet-600/30 group-hover:scale-110 transition">
+              {a.icon}
+            </div>
+            <span class="font-mono text-xs text-slate-600">0{idx + 1}</span>
+          </div>
+          <h3 class="mt-5 font-display font-bold text-xl text-white">{a.title}</h3>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">{a.desc}</p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            {a.tags.map((t) => (
+              <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 border border-white/10 text-slate-300">{t}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- orbit strip -->
+    <div class="mt-8 glass rounded-2xl px-6 py-4 flex flex-wrap items-center gap-x-8 gap-y-2 text-xs font-mono text-slate-400">
+      <span>🪐 HTML5</span><span>🪐 CSS3</span><span>🪐 JavaScript</span><span>🪐 TypeScript</span><span>🪐 Astro</span><span>🪐 Tailwind</span><span>🪐 Git</span><span>🪐 GitHub</span>
+    </div>
+  </div>
+</section>

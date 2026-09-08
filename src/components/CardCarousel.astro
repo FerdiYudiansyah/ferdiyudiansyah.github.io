@@ -1,0 +1,144 @@
+---
+// src/components/CardCarousel.astro
+const cards = [
+  { title: "Project 1", desc: "Deskripsi singkat project pertama.", color: "bg-blue-500" },
+  { title: "Project 2", desc: "Deskripsi singkat project kedua.", color: "bg-purple-500" },
+  { title: "Project 3", desc: "Deskripsi singkat project ketiga.", color: "bg-emerald-500" },
+  { title: "Project 4", desc: "Deskripsi singkat project keempat.", color: "bg-amber-500" },
+  { title: "Project 5", desc: "Deskripsi singkat project kelima.", color: "bg-rose-500" },
+];
+---
+
+<div id="carouselWrapper" class="relative w-full max-w-5xl mx-auto px-4 py-8">
+  <!-- Tombol Kiri -->
+  <button 
+    id="prevBtn" 
+    class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-slate-800 p-3 rounded-full shadow-lg border border-slate-200 transition active:scale-95"
+    aria-label="Previous"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <!-- Container Scrollable Card (Padding disesuaikan agar card pertama bisa ke tengah) -->
+  <div 
+    id="carouselContainer" 
+    class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide py-12 px-[calc(50%-9rem)] md:px-[calc(50%-10rem)]"
+  >
+    {cards.map((card) => (
+      <div class="carousel-card flex-none w-72 md:w-80 snap-center bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden transition-all duration-300 transform scale-90 opacity-60 z-0 select-none">
+        <div class={`h-40 ${card.color} flex items-center justify-center text-white font-bold text-xl`}>
+          {card.title}
+        </div>
+        <div class="p-5">
+          <h3 class="text-lg font-bold text-slate-800">{card.title}</h3>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">{card.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Tombol Kanan -->
+  <button 
+    id="nextBtn" 
+    class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-slate-800 p-3 rounded-full shadow-lg border border-slate-200 transition active:scale-95"
+    aria-label="Next"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>
+
+<script>
+  const wrapper = document.getElementById('carouselWrapper');
+  const container = document.getElementById('carouselContainer');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const cardElements = document.querySelectorAll('.carousel-card');
+
+  if (container && prevBtn && nextBtn && wrapper && cardElements.length > 0) {
+    const scrollAmount = 300;
+    const intervalTime = 3000;
+    let autoScrollTimer: string | number | Timeout | undefined;
+
+    // Fungsi untuk mendeteksi & membesarkan card yang persis di tengah
+    const updateActiveCard = () => {
+      const containerRect = container.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+
+      cardElements.forEach((card) => {
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const distance = Math.abs(containerCenter - cardCenter);
+
+        // Jika card berada dekat dengan titik tengah container
+        if (distance < cardRect.width / 2) {
+          card.classList.add('scale-110', 'opacity-100', 'z-10', 'shadow-2xl');
+          card.classList.remove('scale-90', 'opacity-60', 'z-0');
+        } else {
+          card.classList.remove('scale-110', 'opacity-100', 'z-10', 'shadow-2xl');
+          card.classList.add('scale-90', 'opacity-60', 'z-0');
+        }
+      });
+    };
+
+    // Jalankan deteksi saat di-scroll
+    container.addEventListener('scroll', () => {
+      requestAnimationFrame(updateActiveCard);
+    });
+
+    // Auto scroll handler
+    const scrollNext = () => {
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      
+      if (container.scrollLeft >= maxScrollLeft - 10) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    };
+
+    const startAutoScroll = () => {
+      autoScrollTimer = setInterval(scrollNext, intervalTime);
+    };
+
+    const stopAutoScroll = () => {
+      clearInterval(autoScrollTimer);
+    };
+
+    const resetTimer = () => {
+      stopAutoScroll();
+      startAutoScroll();
+    };
+
+    // Events Listener
+    nextBtn.addEventListener('click', () => {
+      scrollNext();
+      resetTimer();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      resetTimer();
+    });
+
+    wrapper.addEventListener('mouseenter', stopAutoScroll);
+    wrapper.addEventListener('mouseleave', startAutoScroll);
+
+    // Inisialisasi posisi awal
+    updateActiveCard();
+    startAutoScroll();
+  }
+</script>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

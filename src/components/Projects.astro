@@ -1,0 +1,144 @@
+---
+// Section 5 — Projects (space carousel)
+const projects = [
+  {
+    title: 'Hituang',
+    desc: 'An app to count money',
+    tech: ['Flutter', 'Dart'],
+    color: 'from-violet-600 via-purple-500 to-indigo-600',
+    image: 'https://picsum.photos/seed/hituang-app/800/450',
+    link: 'https://github.com/FerdiYudiansyah/Hituang',
+  },
+  {
+    title: 'Simple Calculator',
+    desc: 'An app to calculate',
+    tech: ['Flutter', 'Dart'],
+    color: 'from-cyan-500 via-sky-500 to-blue-700',
+    image: 'https://picsum.photos/seed/calculator-app/800/450',
+    link: 'https://github.com/FerdiYudiansyah/SimpleCalculator',
+  },
+];
+---
+
+<section id="projects" class="relative min-h-screen flex items-center">
+  <div class="w-full max-w-6xl mx-auto px-6 md:pr-28 md:pl-10 py-24">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <p class="text-xs tracking-[0.3em] font-semibold text-cyan-300">EXPEDITIONS // 005 — PROJECTS</p>
+        <h2 class="mt-4 font-display font-bold text-4xl md:text-5xl text-white">Missions <span class="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">I've launched</span></h2>
+      </div>
+      <a href="https://github.com/ferdiyudiansyah?tab=repositories" target="_blank" rel="noreferrer" class="text-sm text-slate-400 hover:text-cyan-200 transition font-semibold">See all on GitHub →</a>
+    </div>
+
+    <div id="carouselWrapper" class="relative mt-10">
+      <button id="prevBtn" class="absolute -left-1 md:left-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full glass text-white flex items-center justify-center hover:bg-white/15 active:scale-90 transition" aria-label="Previous">←</button>
+
+      <div id="carouselContainer" class="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory py-10 px-[8%] md:px-[calc(50%-11rem)]" style="scrollbar-width:none;">
+        {projects.map((p) => (
+          <article class="carousel-card flex-none w-72 md:w-[22rem] snap-center rounded-3xl overflow-hidden glass transition-all duration-300 scale-90 opacity-50 select-none hover:opacity-100">
+            <div class="h-44 relative overflow-hidden bg-slate-900">
+              <img src={p.image} alt={p.title} loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+              <div class={`absolute inset-0 bg-gradient-to-br ${p.color} opacity-40 mix-blend-overlay`}></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#030014]/80 via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3 flex gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-white/70"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-white/40"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-white/25"></span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-display font-bold text-lg text-white">{p.title}</h3>
+              <p class="mt-2 text-sm text-slate-400 leading-relaxed">{p.desc}</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {p.tech.map((t) => (
+                  <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 border border-white/10 text-cyan-200">{t}</span>
+                ))}
+              </div>
+              <a href={p.link} target="_blank" rel="noreferrer" class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-cyan-200 transition">
+                View mission <span>↗</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <button id="nextBtn" class="absolute -right-1 md:right-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full glass text-white flex items-center justify-center hover:bg-white/15 active:scale-90 transition" aria-label="Next">→</button>
+    </div>
+
+    <div id="carouselDots" class="flex justify-center gap-2 mt-2"></div>
+
+    <footer class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+      <p>© {new Date().getFullYear()} Ferdi Yudiansyah · Built with Astro + Tailwind · Deployed on GitHub Pages</p>
+      <p class="font-mono text-xs">END OF TRANSMISSION · <span class="text-emerald-400">● SIGNAL STRONG</span></p>
+    </footer>
+    <div class="h-16 md:h-0"></div>
+  </div>
+</section>
+
+<script>
+  const container = document.getElementById('carouselContainer');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsWrap = document.getElementById('carouselDots');
+  const cards = Array.from(document.querySelectorAll('.carousel-card'));
+
+  if (container && prevBtn && nextBtn && cards.length) {
+    // build dots
+    cards.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'w-2 h-2 rounded-full bg-white/20 transition-all duration-300';
+      d.setAttribute('aria-label', `Go to project ${i + 1}`);
+      d.addEventListener('click', () => {
+        cards[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+      dotsWrap?.appendChild(d);
+    });
+    const dots = Array.from(dotsWrap?.children ?? []);
+
+    const update = () => {
+      const cRect = container.getBoundingClientRect();
+      const center = cRect.left + cRect.width / 2;
+      let best = 0, bestDist = Infinity;
+      cards.forEach((card, i) => {
+        const el = card;
+        const r = el.getBoundingClientRect();
+        const dist = Math.abs(center - (r.left + r.width / 2));
+        if (dist < bestDist) { bestDist = dist; best = i; }
+        const active = dist < r.width / 2;
+        el.classList.toggle('scale-100', active);
+        el.classList.toggle('opacity-100', active);
+        el.classList.toggle('shadow-2xl', active);
+        el.classList.toggle('shadow-violet-600/30', active);
+        el.classList.toggle('scale-90', !active);
+        el.classList.toggle('opacity-50', !active);
+      });
+      dots.forEach((d, i) => {
+        const el = d;
+        el.className = i === best
+          ? 'h-2 w-8 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-300'
+          : 'w-2 h-2 rounded-full bg-white/20 transition-all duration-300 hover:bg-white/40';
+      });
+    };
+
+    container.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    nextBtn.addEventListener('click', () => container.scrollBy({ left: 340, behavior: 'smooth' }));
+    prevBtn.addEventListener('click', () => container.scrollBy({ left: -340, behavior: 'smooth' }));
+
+    let timer = setInterval(auto, 3500);
+    function auto() {
+      const max = container.scrollWidth - container.clientWidth;
+      if (container.scrollLeft >= max - 20) container.scrollTo({ left: 0, behavior: 'smooth' });
+      else container.scrollBy({ left: 340, behavior: 'smooth' });
+    }
+    const wrap = document.getElementById('carouselWrapper');
+    wrap?.addEventListener('mouseenter', () => clearInterval(timer));
+    wrap?.addEventListener('mouseleave', () => { clearInterval(timer); timer = setInterval(auto, 3500); });
+
+    update();
+  }
+</script>
+
+<style>
+  #carouselContainer::-webkit-scrollbar { display: none; }
+  #carouselContainer { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

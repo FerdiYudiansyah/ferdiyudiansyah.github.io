@@ -1,0 +1,59 @@
+---
+// Section 3 — About Me
+const facts = [
+  { k: 'Base', v: 'Indonesia · Earth 🌍' },
+  { k: 'Focus', v: 'Web apps & clean UI' },
+  { k: 'Status', v: 'Open to work & collabs' },
+  { k: 'Interests', v: 'Space, OSS, UI design' },
+];
+const stack = ['Astro', 'Flutter', 'Tailwind CSS', 'JavaScript', 'TypeScript', 'HTML/CSS', 'Java', 'Python', 'Dart', 'C#', 'C++', 'Git & GitHub'];
+---
+
+<section id="about" class="relative min-h-screen flex items-center">
+  <div class="w-full max-w-6xl mx-auto px-6 md:pr-28 md:pl-10 py-24">
+    <p class="text-xs tracking-[0.3em] font-semibold text-cyan-300">SCAN // 003 — ABOUT ME</p>
+    <h2 class="mt-4 font-display font-bold text-4xl md:text-5xl text-white">A human behind <span class="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">the code</span></h2>
+
+    <div class="mt-10 grid md:grid-cols-2 gap-6">
+      <div class="glass rounded-3xl p-8 leading-relaxed text-slate-300">
+        <p>
+          Hi! I'm <strong class="text-white">Ferdi Yudiansyah</strong>, a developer who loves
+          learning new skills. What started as curiosity — <em>"how do game work? how do web work? how to code? how to design?"</em> —
+          turned into a mission to craft fast, accessible, delightful experiences.
+        </p>
+        <p class="mt-4 text-slate-400">
+          Like exploring space, I enjoy venturing into unknown codebases, mapping them out,
+          and bringing back something useful. My current orbit: modern static sites and
+          web apps with <strong class="text-slate-200">Astro + Tailwind CSS</strong>, deployed
+          straight to GitHub Pages.
+        </p>
+        <p class="mt-4 text-slate-400">
+          Beyond code you’ll find me stargazing, reading docs like sci-fi novels,
+          and polishing pixels until they shine.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {stack.map((s) => (
+            <span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/5 border border-white/10 text-slate-300 hover:border-cyan-300/40 hover:text-cyan-200 transition">{s}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        {facts.map((f) => (
+          <div class="glass rounded-2xl px-6 py-5 flex items-center gap-4 hover:bg-white/[0.07] transition group">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600/40 to-cyan-500/30 border border-white/10 flex items-center justify-center font-display font-bold text-cyan-200 text-sm group-hover:scale-110 transition">
+              {f.k[0]}
+            </div>
+            <div>
+              <p class="text-[11px] tracking-widest text-slate-500 font-semibold">{f.k.toUpperCase()}</p>
+              <p class="text-slate-200 font-medium">{f.v}</p>
+            </div>
+          </div>
+        ))}
+        <div class="rounded-2xl p-6 bg-gradient-to-r from-violet-600/20 to-cyan-500/15 border border-violet-400/20 text-sm text-slate-300">
+          🚀 <strong class="text-white">Fun fact:</strong> this site is hosted on <span class="font-mono text-cyan-200">ferdiyudiansyah.github.io</span> — my own little planet on the internet.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
